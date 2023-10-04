@@ -1,0 +1,13 @@
+*
+
+!.gitignore
+!requirements.txt
+!README.md
+
+!to_dicom_seg/
+!to_dicom_seg/**
+
+!tests/
+!tests/**
+
+.pyc
