@@ -27,7 +27,7 @@ def make_template(creator_name: str,
                                       # (i.e. how do we generate the SeriesNumber to ensure
                                       # it will always be different from the other)
 
-    metadata['segmentAttributes'] = [[seg.to_dataset()] for seg in segments]
+    metadata['segmentAttributes'] = [[seg.to_dataset() for seg in segments]]
 
     template = pydicom_seg.template.from_dcmqi_metainfo(metadata)
 
