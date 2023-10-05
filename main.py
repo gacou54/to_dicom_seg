@@ -1,6 +1,7 @@
 import os
 
 import pydicom
+from pydicom.uid import generate_uid
 
 from to_dicom_seg.converter import nifti_to_dicom_seg
 from to_dicom_seg.segment import Segment
@@ -34,8 +35,8 @@ segments = [
 # Create the DICOM Segmentation
 ds = nifti_to_dicom_seg(NIFTI_FILEPATH, REF_CT_PATH, 'COUTURE^Gabriel', 'Thorax', segments)
 
-ds.SeriesInstanceUID = 'my_uid'
-ds.SOPInstanceUID = 'my_uid'
+ds.SeriesInstanceUID = generate_uid()
+ds.SOPInstanceUID = generate_uid()
 
 # Writing the DICOM Segmentation file
 os.makedirs('results', exist_ok=True)
