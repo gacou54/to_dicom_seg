@@ -20,7 +20,7 @@ def nifti_to_dicom_seg(nifti_path: str, ref_ct_directory_path: str) -> pydicom.F
     # New way to generate templates
     segments = [
         Segment(
-            label='nodule-1',
+            label=1,
             description='This is a nodule',
             algorithm_name='MySuperAlgorithm',
             algorithm_type='AUTOMATIC',
