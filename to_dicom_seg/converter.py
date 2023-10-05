@@ -1,4 +1,5 @@
 import os
+from typing import List
 
 import SimpleITK as sitk
 import cc3d
@@ -9,7 +10,7 @@ from .template import make_template
 from .segment import Segment
 
 
-def nifti_to_dicom_seg(nifti_path: str, ref_ct_directory_path: str) -> pydicom.FileDataset:
+def nifti_to_dicom_seg(nifti_path: str, ref_ct_directory_path: str, segments: List[Segment]) -> pydicom.FileDataset:
     segmentation = sitk.Cast(
         image=sitk.ReadImage(nifti_path),
         pixelID=sitk.sitkUInt16
@@ -17,18 +18,6 @@ def nifti_to_dicom_seg(nifti_path: str, ref_ct_directory_path: str) -> pydicom.F
     cts = [pydicom.dcmread(os.path.join(ref_ct_directory_path, i)) for i in os.listdir(ref_ct_directory_path)]
     segmentation = calculate_connected_components(segmentation)
 
-    # New way to generate templates
-    segments = [
-        Segment(
-            label=1,
-            description='This is a nodule',
-            algorithm_name='MySuperAlgorithm',
-            algorithm_type='AUTOMATIC',
-            property_category='Anatomical Structure',
-            property_type='Lung',
-            property_modifier='Right'
-        )
-    ]
     template = make_template(
         'COUTURE^Gabriel',
         'my_desc',
