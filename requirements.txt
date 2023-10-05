@@ -1,0 +1,9 @@
+attrs==23.1.0
+connected-components-3d==3.12.3
+jsonschema==3.2.0
+numpy==1.26.0
+pydicom==2.4.3
+pydicom-seg==0.4.1
+pyrsistent==0.19.3
+SimpleITK==2.3.0
+six==1.16.0

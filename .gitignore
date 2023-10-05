@@ -4,10 +4,13 @@
 !requirements.txt
 !README.md
 
+!main.py
+
 !to_dicom_seg/
 !to_dicom_seg/**
 
 !tests/
 !tests/**
 
+__pycache__/
 .pyc
