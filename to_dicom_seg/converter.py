@@ -10,7 +10,12 @@ from .template import make_template
 from .segment import Segment
 
 
-def nifti_to_dicom_seg(nifti_path: str, ref_ct_directory_path: str, segments: List[Segment]) -> pydicom.FileDataset:
+def nifti_to_dicom_seg(nifti_path: str,
+                       ref_ct_directory_path: str,
+                       creator_name: str,
+                       body_part_examined: str,
+                       segments: List[Segment],
+                       description: str = 'Segmentation') -> pydicom.FileDataset:
     segmentation = sitk.Cast(
         image=sitk.ReadImage(nifti_path),
         pixelID=sitk.sitkUInt16
@@ -19,9 +24,9 @@ def nifti_to_dicom_seg(nifti_path: str, ref_ct_directory_path: str, segments: Li
     segmentation = calculate_connected_components(segmentation)
 
     template = make_template(
-        'COUTURE^Gabriel',
-        'my_desc',
-        'lung',
+        creator_name,
+        description,
+        body_part_examined,
         segments
     )
 

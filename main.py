@@ -32,7 +32,10 @@ segments = [
 ]
 
 # Create the DICOM Segmentation
-ds = nifti_to_dicom_seg(NIFTI_FILEPATH, REF_CT_PATH, segments)
+ds = nifti_to_dicom_seg(NIFTI_FILEPATH, REF_CT_PATH, 'COUTURE^Gabriel', 'Thorax', segments)
+
+ds.SeriesInstanceUID = 'my_uid'
+ds.SOPInstanceUID = 'my_uid'
 
 # Writing the DICOM Segmentation file
 os.makedirs('results', exist_ok=True)

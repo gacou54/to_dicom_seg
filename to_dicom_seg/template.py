@@ -23,9 +23,9 @@ def make_template(creator_name: str,
     metadata['ContentCreatorName'] = creator_name
     metadata['SeriesDescription'] = description
     metadata['BodyPartExamined'] = body_part_examined
-    metadata['SeriesNumber'] = '300'  # TODO: how do we handle this
-                                      # (i.e. how do we generate the SeriesNumber to ensure
-                                      # it will always be different from the other)
+    metadata['SeriesNumber'] = ''  # TODO: how do we handle this
+                                   # (i.e. how do we generate the SeriesNumber to ensure
+                                   # it will always be different from the other)
 
     metadata['segmentAttributes'] = [[seg.to_dataset() for seg in segments]]
 
