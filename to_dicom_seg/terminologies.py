@@ -44,12 +44,15 @@ def find_code_values_from_snomed_ct(
     if category_code_value and type_code_value and modifier_code_value:
         return category_code_value, type_code_value, modifier_code_value
 
+    if category_code_value and type_code_value:
+        return category_code_value, type_code_value, ''
+
     raise ValueError(
         'At least one of the code meanings has not been found. '
         f'category_code_meaning: "{category_code_meaning}", '
         f'type_code_meaning: "{type_code_meaning}", '
         f'modifier_code_meaning: "{modifier_code_meaning}"'
-        f'category_code_value : {category_code_value}'
-        f'type_code_value : {type_code_value}'
-        f'modifier_code_value : {modifier_code_value}'
+        f'category_code_value : {category_code_value} '
+        f'type_code_value : {type_code_value} '
+        f'modifier_code_value : {modifier_code_value} '
     )
