@@ -32,7 +32,7 @@ def generate_segments(segmentation: sitk.Image, algorithm: Algorithm, property_:
 
         my_segment=Segment(
                 label_id=segment_iter,
-                description=f'',
+                description=f'{property_.type_} {str(segment_iter)}',
                 algorithm_name=algorithm.name,
                 algorithm_type=algorithm.type_,
                 property_category=property_.category,
