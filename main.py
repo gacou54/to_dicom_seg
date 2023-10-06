@@ -26,7 +26,6 @@ def main(argv):
     parser.add_argument('-is', '--is', help='Description', required=True)
     parser.add_argument('-ict', '--ict', help='Description', required=True)
     parser.add_argument('-o', '--output', help='Description', required=True)
-    parser.add_argument('-pr', '--pr', help='Description', required=True)
     parser.add_argument('-pt', '--pt', help='Description', required=True)
     parser.add_argument('-pm', '--pm', help='Description', required=True)
     parser.add_argument('-pc', '--pc', help='Description', required=True)
