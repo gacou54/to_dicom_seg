@@ -28,7 +28,7 @@ class Property:
 def generate_segments(segmentation: sitk.Image, algorithm: Algorithm, property_: Property, number_of_segments):
     segments = []
 
-    for segment_iter in range(number_of_segments) :
+    for segment_iter in range(1,number_of_segments+1) :
 
         my_segment=Segment(
                 label_id=segment_iter,
