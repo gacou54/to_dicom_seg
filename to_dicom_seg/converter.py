@@ -42,28 +42,8 @@ def generate_segments(segmentation: sitk.Image, algorithm: Algorithm, property_:
 
         segments.append(my_segment)
 
+    return segments
 
-
-    segments = [
-        Segment(
-            label_id=1,
-            description='Nodule',
-            algorithm_name='MySuperAlgorithm',
-            algorithm_type='AUTOMATIC',
-            property_category='Anatomical Structure',
-            property_type='Lung',
-            property_modifier='Right'
-        ),
-        Segment(
-            label_id=2,
-            description='Nodule2',
-            algorithm_name='MySuperAlgorithm',
-            algorithm_type='AUTOMATIC',
-            property_category='Anatomical Structure',
-            property_type='Lung',
-            property_modifier='Right'
-        )
-    ]
 
 
 def nifti_to_dicom_seg(nifti_path: str,
