@@ -2,7 +2,7 @@ import os
 
 import pydicom
 from pydicom.uid import generate_uid
-import getopt
+import argparse
 import sys
 
 from to_dicom_seg.converter import nifti_to_dicom_seg
@@ -21,32 +21,27 @@ def main(argv):
     inputsegfile = ''
     inputctpath = ''
     outputpath = ''
-    opts, args = getopt.getopt(argv,"is:ict:o:pr:pt:pm:an:at:bpe:ccn:",
-                               ["ifile=","ofile="]) # need to change
-    for opt, arg in opts:
-      if opt in ("-is", "--is"):
-         inputsegfile = arg
-      elif opt in ("-ict", "--ict"):
-         inputctpath = arg
-      elif opt in ("-o", "--ofile"):
-         outputpath = arg
-      elif opt in ("-pr", "--propertycategory"):
-         property.category = arg
-      elif opt in ("-pt", "--propertytype"):
-         property.type_ = arg
-      elif opt in ("-pm", "--propertymodifier"):
-         property.modifier = arg
-      elif opt in ("-an", "--algorithmname"):
-         algorithm.name = arg
-      elif opt in ("-at", "--algorithmtype"):
-         algorithm.type_ = arg
-      elif opt in ("-bpe", "--bodypartexamined"):
-         body_part_examined = arg
-      elif opt in ("-ccn", "--contentcreatorname"):
-         content_creator_name = arg
 
-    NIFTI_FILEPATH = inputsegfile  # This is the segmentation nifti file
-    REF_CT_PATH = inputctpath  # This is a CT directory with DICOM CT
+    parser = argparse.ArgumentParser(description='Description of your program')
+    parser.add_argument('-is', '--is', help='Description', required=True)
+    parser.add_argument('-ict', '--ict', help='Description', required=True)
+    parser.add_argument('-o', '--output', help='Description', required=True)
+    parser.add_argument('-pr', '--pr', help='Description', required=True)
+    parser.add_argument('-pt', '--pt', help='Description', required=True)
+    parser.add_argument('-pm', '--pm', help='Description', required=True)
+    parser.add_argument('-pc', '--pc', help='Description', required=True)
+    parser.add_argument('-an', '--an', help='Description', required=True)
+    parser.add_argument('-at', '--at', help='Description', required=True)
+    parser.add_argument('-bpe', '--bpe', help='Description', required=False)
+    parser.add_argument('-ccn', '--ccn', help='Description', required=False)
+    args = vars(parser.parse_args())
+
+    property = Property(category=args['pc'], type_=args['pt'], modifier=args['pm'])
+    algorithm = Algorithm(name=args['an'], type_=args['at'])
+
+    NIFTI_FILEPATH = args['is']  # This is the segmentation nifti file
+    REF_CT_PATH = args['ict']  # This is a CT directory with DICOM CT
+    outputpath = args['output']
 
     # Create the DICOM Segmentation
     ds = nifti_to_dicom_seg(NIFTI_FILEPATH, REF_CT_PATH,
