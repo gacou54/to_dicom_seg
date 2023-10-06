@@ -1,6 +1,6 @@
 import os
 from dataclasses import dataclass
-from typing import List
+from typing import List, Tuple
 
 import SimpleITK as sitk
 import cc3d
@@ -25,15 +25,51 @@ class Property:
     modifier: str = None
 
 
-def generate_segments(segmentation: sitk.Image, algorithm: Algorithm, property_: Property):
-    raise NotImplementedError
+def generate_segments(segmentation: sitk.Image, algorithm: Algorithm, property_: Property, number_of_segments):
+    segments = []
+
+    for segment_iter in number_of_segments :
+
+        my_segment=Segment(
+                label_id=segment_iter,
+                description=f'',
+                algorithm_name=algorithm.name,
+                algorithm_type=algorithm.type_,
+                property_category=property_.category,
+                property_type=property_.type_,
+                property_modifier=property_.modifier
+            )
+
+        segments.append(my_segment)
+
+
+
+    segments = [
+        Segment(
+            label_id=1,
+            description='Nodule',
+            algorithm_name='MySuperAlgorithm',
+            algorithm_type='AUTOMATIC',
+            property_category='Anatomical Structure',
+            property_type='Lung',
+            property_modifier='Right'
+        ),
+        Segment(
+            label_id=2,
+            description='Nodule2',
+            algorithm_name='MySuperAlgorithm',
+            algorithm_type='AUTOMATIC',
+            property_category='Anatomical Structure',
+            property_type='Lung',
+            property_modifier='Right'
+        )
+    ]
 
 
 def nifti_to_dicom_seg(nifti_path: str,
                        ref_ct_directory_path: str,
                        creator_name: str,
                        body_part_examined: str,
-                       segments: List[Segment],
                        algorithm: Algorithm,
                        property_: Property,
                        description: str = 'Segmentation') -> pydicom.FileDataset:

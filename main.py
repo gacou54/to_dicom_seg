@@ -2,42 +2,63 @@ import os
 
 import pydicom
 from pydicom.uid import generate_uid
+import getopt
+import sys
 
 from to_dicom_seg.converter import nifti_to_dicom_seg
 from to_dicom_seg.segment import Segment
+from to_dicom_seg.converter import Property, Algorithm
 
-DATA = './data'
-NIFTI_FILEPATH = os.path.join(DATA, 'seg.nii.gz')  # This is the segmentation nifti file
-REF_CT_PATH = os.path.join(DATA, 'CT')  # This is a CT directory with DICOM CT
 
-# Segments have to be defined by hand (since this data is not in the nifti)
-segments = [
-    Segment(
-        label_id=1,
-        description='Nodule',
-        algorithm_name='MySuperAlgorithm',
-        algorithm_type='AUTOMATIC',
-        property_category='Anatomical Structure',
-        property_type='Lung',
-        property_modifier='Right'
-    ),
-    Segment(
-        label_id=2,
-        description='Nodule2',
-        algorithm_name='MySuperAlgorithm',
-        algorithm_type='AUTOMATIC',
-        property_category='Anatomical Structure',
-        property_type='Lung',
-        property_modifier='Right'
-    )
-]
+def main(argv):
+    property = Property(category='', type_='', modifier='')
+    algorithm = Algorithm(name='', type_='')
 
-# Create the DICOM Segmentation
-ds = nifti_to_dicom_seg(NIFTI_FILEPATH, REF_CT_PATH, 'COUTURE^Gabriel', 'Thorax', segments)
 
-ds.SeriesInstanceUID = generate_uid()
-ds.SOPInstanceUID = generate_uid()
+    body_part_examined = ''
+    content_creator_name = ''
 
-# Writing the DICOM Segmentation file
-os.makedirs('results', exist_ok=True)
-pydicom.dcmwrite('results/seg.dcm', ds)
+    inputsegfile = ''
+    inputctpath = ''
+    outputpath = ''
+    opts, args = getopt.getopt(argv,"is:ict:o:pr:pt:pm:an:at:bpe:ccn:",
+                               ["ifile=","ofile="]) # need to change
+    for opt, arg in opts:
+      if opt in ("-is", "--is"):
+         inputsegfile = arg
+      elif opt in ("-ict", "--ict"):
+         inputctpath = arg
+      elif opt in ("-o", "--ofile"):
+         outputpath = arg
+      elif opt in ("-pr", "--propertycategory"):
+         property.category = arg
+      elif opt in ("-pt", "--propertytype"):
+         property.type_ = arg
+      elif opt in ("-pm", "--propertymodifier"):
+         property.modifier = arg
+      elif opt in ("-an", "--algorithmname"):
+         algorithm.name = arg
+      elif opt in ("-at", "--algorithmtype"):
+         algorithm.type_ = arg
+      elif opt in ("-bpe", "--bodypartexamined"):
+         body_part_examined = arg
+      elif opt in ("-ccn", "--contentcreatorname"):
+         content_creator_name = arg
+
+    NIFTI_FILEPATH = inputsegfile  # This is the segmentation nifti file
+    REF_CT_PATH = inputctpath  # This is a CT directory with DICOM CT
+
+    # Create the DICOM Segmentation
+    ds = nifti_to_dicom_seg(NIFTI_FILEPATH, REF_CT_PATH,
+                            content_creator_name, body_part_examined,
+                            algorithm, property)
+
+    ds.SeriesInstanceUID = generate_uid()
+    ds.SOPInstanceUID = generate_uid()
+
+    # Writing the DICOM Segmentation file
+    os.makedirs('results', exist_ok=True)
+    pydicom.dcmwrite(f'{outputpath}/seg.dcm', ds)
+
+if __name__ == "__main__":
+   main(sys.argv[1:])
