@@ -49,4 +49,7 @@ def find_code_values_from_snomed_ct(
         f'category_code_meaning: "{category_code_meaning}", '
         f'type_code_meaning: "{type_code_meaning}", '
         f'modifier_code_meaning: "{modifier_code_meaning}"'
+        f'category_code_value : {category_code_value}'
+        f'type_code_value : {type_code_value}'
+        f'modifier_code_value : {modifier_code_value}'
     )
