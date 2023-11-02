@@ -1,0 +1,19 @@
+[tool.poetry]
+name = "to-dicom-seg"
+version = "0.1.0"
+description = "Convert nifti segmentations to DICOM segmentation files"
+authors = ["Gabriel Couture"]
+license = "MIT"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.9"
+pydicom = "^2.4.3"
+simpleitk = "^2.3.0"
+
+[tool.poetry.scripts]
+to-dicom-seg = "to_dicom_seg.cli:main"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
